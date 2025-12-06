@@ -1,0 +1,57 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, tech, github, demo, image } = project.data;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose dark:prose-invert max-w-none">
+    <header class="mb-8 not-prose">
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-4">{description}</p>
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tech.map((t) => (
+          <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded text-sm">
+            {t}
+          </span>
+        ))}
+      </div>
+
+      <div class="flex gap-4">
+        {github && (
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded hover:opacity-90"
+          >
+            GitHub
+          </a>
+        )}
+        {demo && (
+          <a
+            href={demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Live Demo
+          </a>
+        )}
+      </div>
+    </header>
+
+    {image && (
+      <img src={image} alt={title} class="rounded-lg mb-8" />
+    )}
+
+    <slot />
+  </article>
+</BaseLayout>
